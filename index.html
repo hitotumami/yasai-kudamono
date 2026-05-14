@@ -112,7 +112,8 @@
         .modal-content { background: white; width: 90%; max-width: 400px; border-radius: 20px; position: relative; transform: scale(0.9); transition: 0.3s; overflow: hidden; }
         .modal.is-open .modal-content { transform: scale(1); }
         .modal-img { width: 100%; background: #000; padding: 20px; }
-        .modal-desc { padding: 30px 20px; }
+        .modal-desc /* モーダルの説明文エリアを修正 */
+        .modal-desc {  padding: 20px;  max-height: 250px; /* 高さを制限 */ overflow-y: auto;  /* 縦スクロールを許可 */ -webkit-overflow-scrolling: touch; /* スマホで滑らかに */}
         .modal-desc h2 { font-size: 1.1rem; color: var(--decoration); margin: 0 0 10px; }
         .modal-desc p { font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
         .close-btn { position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; font-weight: bold; }
