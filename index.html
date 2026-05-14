@@ -39,7 +39,6 @@
 
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
 
-        /* ヒーローセクション */
         .intro-section {
             padding: 80px 20px 40px;
             text-align: center;
@@ -94,7 +93,7 @@
         .card img, .empty-img { 
             width: 100%; height: 350px; object-fit: cover; 
         }
-        .empty-img { background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #888; }
+        .empty-img { background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #888; font-family: sans-serif;}
 
         .card-title {
             padding: 20px;
@@ -104,7 +103,7 @@
             border-top: 1px solid #f0f0f0;
         }
 
-        /* クイズセクション - 復活＆強化 */
+        /* クイズセクション */
         .quiz-section {
             margin: 80px 0;
             padding: 50px 20px;
@@ -120,33 +119,28 @@
         }
         .quiz-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 20px;
         }
         .quiz-card {
             background: white;
-            padding: 30px 20px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
         }
-        .quiz-card:hover { transform: translateY(-5px); }
         .quiz-icon {
-            width: 70px; height: 70px;
+            width: 60px; height: 60px;
             background: #f8f9fa;
             border-radius: 50%;
             margin: 0 auto 15px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
             overflow: hidden;
-            border: 2px solid white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         .quiz-icon img { width: 100%; height: 100%; object-fit: cover; filter: blur(8px); }
 
-        /* モーダル：中央寄せ修正版 */
+        /* モーダル：完全中央寄せ */
         .modal {
             display: none; 
             position: fixed; 
@@ -154,7 +148,6 @@
             width: 100%; height: 100%;
             background: rgba(44, 62, 80, 0.8);
             z-index: 2000;
-            /* Flexboxで上下左右中央に配置 */
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(8px);
@@ -164,11 +157,12 @@
             background: white;
             width: 85%;
             max-width: 400px;
+            max-height: 90vh;
             border-radius: 0;
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             position: relative;
             animation: slideUp 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         @keyframes slideUp {
@@ -179,7 +173,7 @@
         .modal-img { width: 100%; height: 280px; object-fit: cover; }
         .modal-desc { padding: 30px 20px; }
         .modal-desc h2 { font-size: 1.2rem; margin-top: 0; border-bottom: 1px solid var(--decoration); padding-bottom: 10px; }
-        .modal-desc p { font-size: 0.95rem; margin-bottom: 0; }
+        .modal-desc p { font-size: 0.95rem; line-height: 1.8; }
         
         .close-btn {
             position: absolute;
@@ -215,43 +209,82 @@
     
     <h2 class="row-title">01 Observation</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('S__115392542.jpg', 'キャベツの結球構造', '葉が重なり合い球状になる「結球」の様子です。何層にも重なる葉は、外敵から成長点を守る役割があります。')">
+        <div class="card" onclick="openModal('S__115392542.jpg', 'キャベツの結球構造', '葉が重なり合い球状になる「結球」の様子です。内側にいくほど葉が白く柔らかいのは、日光が当たらないためです。')">
             <img src="S__115392542.jpg">
             <div class="card-title">結球の層</div>
         </div>
-        <div class="card" onclick="openModal('S__115392550.jpg', 'オクラの分画と胎座', '5つの子房室と、種が並ぶ中央の胎座が観察できます。この星型は、効率よく種を運ぶための自然の幾何学です。')">
+        <div class="card" onclick="openModal('S__115392550.jpg', 'オクラの分画と胎座', '5つの子房室と中央の胎座が観察できます。この幾何学的な構造が、あの独特の食感を生み出しています。')">
             <img src="S__115392550.jpg">
             <div class="card-title">五角形の機能美</div>
         </div>
-        <div class="card" onclick="openModal('S__115392530.jpg', '断面の多様性', '様々な野菜の内部構造を比較できます。似たような見た目でも、切ってみると全く異なる宇宙が広がっています。')">
+        <div class="card" onclick="openModal('S__115392530.jpg', '断面の多様性', '様々な野菜の内部構造を比較。植物ごとに異なる生存戦略が、その断面のデザインに現れています。')">
             <img src="S__115392530.jpg">
-            <div class="card-title">多様な断面</div>
+            <div class="card-title">多様な断面の比較</div>
         </div>
     </div>
 
     <h2 class="row-title">02 History</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('', '世界を繋いだ断面', '大航海時代を経て新大陸から運ばれた野菜の伝播史。断面の中に、何千キロもの旅の記憶が刻まれています。')">
+        <div class="card" onclick="openModal('', '世界を繋いだ断面', 'コロンブス交換以降、トマトやジャガイモが旧世界へ。断面にはグローバルな交易の歴史が刻まれています。')">
             <div class="empty-img">HISTORY 01</div>
-            <div class="card-title">世界を繋いだ断面</div>
+            <div class="card-title">交易と野菜の伝播</div>
         </div>
-        <div class="card" onclick="openModal('', 'デザインされた造形', '野生種から数千年かけて変化した、人類の欲望の記録。私たちが食べる断面は、実は人為的に選別された「美」でもあります。')">
+        <div class="card" onclick="openModal('', 'デザインされた造形', '野生種はもっと小さく、断面もスカスカでした。現在の密な断面は、数千年に及ぶ選別の結果です。')">
             <div class="empty-img">HISTORY 02</div>
-            <div class="card-title">デザインされた造形</div>
+            <div class="card-title">選別と改良の歩み</div>
+        </div>
+        <div class="card" onclick="openModal('', '色彩の文化史', 'ニンジンのオレンジ色が定着したのは17世紀オランダと言われます。断面の色にも政治や文化が反映されています。')">
+            <div class="empty-img">HISTORY 03</div>
+            <div class="card-title">色彩に宿る文化</div>
         </div>
     </div>
 
-    <!-- クイズセクション復活 -->
+    <h2 class="row-title">03 Boundary</h2>
+    <div class="card-row">
+        <div class="card" onclick="openModal('', '野菜と果物の分岐点', 'スイカやイチゴは「果実的野菜」。木に成るか草に成るか、その境界線は断面の構造にも現れます。')">
+            <div class="empty-img">BOUNDARY 01</div>
+            <div class="card-title">定義の境界線</div>
+        </div>
+        <div class="card" onclick="openModal('', '江戸の園芸文化', '江戸時代の日本は世界屈指の園芸大国でした。断面の美しさを愛でる感性も、この頃に磨かれました。')">
+            <div class="empty-img">BOUNDARY 02</div>
+            <div class="card-title">日本独自の美学</div>
+        </div>
+        <div class="card" onclick="openModal('', '野生と栽培の狭間', '栽培種が野生に戻る「脱馴化」。断面を比較することで、植物が人間との共生で何を失い、何を得たかが見えてきます。')">
+            <div class="empty-img">BOUNDARY 03</div>
+            <div class="card-title">共生の記録</div>
+        </div>
+    </div>
+
+    <h2 class="row-title">04 Science</h2>
+    <div class="card-row">
+        <div class="card" onclick="openModal('', '導管と師管の地図', '水を運ぶ道と栄養を運ぶ道。断面に見える筋や点は、植物が生きるためのインフラ設備です。')">
+            <div class="empty-img">SCIENCE 01</div>
+            <div class="card-title">生命のインフラ</div>
+        </div>
+        <div class="card" onclick="openModal('', 'フラクタルの秩序', 'ロマネスコのように、断面の中に同じ形が繰り返される構造。自然界が持つ数学的な美しさです。')">
+            <div class="empty-img">SCIENCE 02</div>
+            <div class="card-title">幾何学的な秩序</div>
+        </div>
+        <div class="card" onclick="openModal('', '酸化と変色の科学', '切った瞬間から始まる変化。断面の色が変わるのは、植物が身を守るための化学反応の結果です。')">
+            <div class="empty-img">SCIENCE 03</div>
+            <div class="card-title">一瞬の静止画</div>
+        </div>
+    </div>
+
     <div class="quiz-section">
-        <h3 class="quiz-title">断面推測：其の一</h3>
+        <h3 class="quiz-title">断面推測クイズ</h3>
         <div class="quiz-grid">
-            <div class="quiz-card" onclick="openModal('S__115392550.jpg', '正解：オクラ', '拡大するとまるで星のような造形。この五角形がオクラの最大の特徴ですね！')">
+            <div class="quiz-card" onclick="openModal('S__115392550.jpg', '正解：オクラ', '特徴的な五角形。星のようなこの形は、種を等間隔に配置するための合理的デザインです。')">
                 <div class="quiz-icon"><img src="S__115392550.jpg"></div>
-                <div style="font-size:0.8rem;">Q1. この星型は何？</div>
+                <div style="font-size:0.7rem;">Q. 星型の主は？</div>
             </div>
-            <div class="quiz-card" onclick="openModal('S__115392542.jpg', '正解：キャベツ', '複雑に入り組んだ白い線は、ぎゅっと詰まった葉の隙間でした。')">
+            <div class="quiz-card" onclick="openModal('S__115392542.jpg', '正解：キャベツ', '複雑に重なり合う曲線。これは1枚の葉ではなく、多くの葉が密集した宇宙です。')">
                 <div class="quiz-icon"><img src="S__115392542.jpg"></div>
-                <div style="font-size:0.8rem;">Q2. この迷宮は何？</div>
+                <div style="font-size:0.7rem;">Q. この曲線美は？</div>
+            </div>
+            <div class="quiz-card" onclick="openModal('S__115392530.jpg', '正解：集合体', '様々な個性が集まった一枚。断面それぞれの物語を比較してみてください。')">
+                <div class="quiz-icon"><img src="S__115392530.jpg"></div>
+                <div style="font-size:0.7rem;">Q. 断面の集合</div>
             </div>
         </div>
     </div>
@@ -262,7 +295,6 @@
     </footer>
 </div>
 
-<!-- モーダル -->
 <div id="infoModal" class="modal">
     <div class="modal-content">
         <div class="close-btn" onclick="closeModal()">&times;</div>
@@ -278,7 +310,7 @@
     function openModal(imgSrc, title, text) {
         const visualArea = document.getElementById('modalVisual');
         if (!imgSrc) {
-            visualArea.innerHTML = `<div style="background:#f0f0f0; height:280px; display:flex; justify-content:center; align-items:center; font-size:1.5rem;">🥗</div>`;
+            visualArea.innerHTML = `<div style="background:#f0f0f0; height:280px; display:flex; justify-content:center; align-items:center; font-size:1.5rem;">📷</div>`;
         } else {
             visualArea.innerHTML = `<img src="${imgSrc}" class="modal-img">`;
         }
@@ -286,7 +318,7 @@
         document.getElementById('modalText').innerText = text;
         
         const modal = document.getElementById('infoModal');
-        modal.style.display = 'flex'; // flexで中央寄せ
+        modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
 
