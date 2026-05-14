@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>食材の断面展 | Inside the Harvest</title>
     <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
     
@@ -13,286 +13,293 @@
             --accent: #e67e22;
             --decoration: #27ae60;
             --quiz-accent: #9b59b6;
-            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.95);
         }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Shippori Mincho', serif;
             margin: 0; background-color: var(--bg-color); color: var(--text-color);
-            line-height: 1.8;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(var(--decoration) 0.5px, transparent 0.5px),
-                url("https://www.transparenttextures.com/patterns/natural-paper.png");
+            line-height: 1.8; overflow-x: hidden;
+            background-image: radial-gradient(var(--decoration) 0.5px, transparent 0.5px), url("https://www.transparenttextures.com/patterns/natural-paper.png");
             background-size: 40px 40px, auto;
+            -webkit-overflow-scrolling: touch;
         }
 
+        /* --- 凝ったオープニング演出のスタイル --- */
+        #door-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999; display: flex; pointer-events: auto;
+            background-color: var(--bg-color);
+            transition: background-color 1s ease;
+        }
+
+        .door {
+            width: 50%; height: 100%; position: relative;
+            overflow: hidden;
+            transition: transform 1.4s cubic-bezier(0.7, 0, 0.2, 1);
+        }
+
+        .door-img {
+            position: absolute; top: 50%; width: 100%; height: 60%;
+            background-repeat: no-repeat;
+            background-size: contain;
+            transition: transform 1.6s cubic-bezier(0.7, 0, 0.2, 1);
+        }
+
+        .door-left { border-right: 0.5px solid rgba(0,0,0,0.05); }
+        .door-left .door-img {
+            right: 0; transform: translateY(-50%);
+            background-image: url('intro1.png'); /* 左側の断面画像 */
+            background-position: right center;
+        }
+
+        .door-right { }
+        .door-right .door-img {
+            left: 0; transform: translateY(-50%);
+            background-image: url('intro2.png'); /* 右側の断面画像 */
+            background-position: left center;
+        }
+
+        /* アニメーション発火時 */
+        #door-overlay.loaded { background-color: transparent; pointer-events: none; }
+        #door-overlay.loaded .door-left { transform: translateX(-100%); }
+        #door-overlay.loaded .door-right { transform: translateX(100%); }
+        /* 視差効果：画像自体も少し外側に逃がす */
+        #door-overlay.loaded .door-left .door-img { transform: translateY(-50%) translateX(-30%); }
+        #door-overlay.loaded .door-right .door-img { transform: translateY(-50%) translateX(30%); }
+
+        #door-message {
+            position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%);
+            font-family: 'Yuji Syuku', serif; letter-spacing: 0.5em;
+            color: var(--text-color); opacity: 0.5; font-size: 0.9rem;
+            text-align: center; width: 100%;
+        }
+
+        /* タップ時の微かな揺れ演出 */
+        .cut-vibration { animation: vibrate 0.1s linear 2; }
+        @keyframes vibrate { 0% { transform: translate(0); } 25% { transform: translate(2px, 2px); } 50% { transform: translate(-2px, -2px); } 75% { transform: translate(2px, -2px); } 100% { transform: translate(0); } }
+
+        /* --- サイトコンテンツ --- */
         .side-title {
-            position: fixed; right: 10px; top: 20%;
-            writing-mode: vertical-rl;
-            font-family: 'Yuji Syuku', serif;
-            letter-spacing: 0.5em;
-            opacity: 0.2;
-            font-size: 1.2rem;
-            z-index: -1;
+            position: fixed; right: 10px; top: 20%; writing-mode: vertical-rl;
+            font-family: 'Yuji Syuku', serif; letter-spacing: 0.5em;
+            opacity: 0.15; font-size: 1.1rem; z-index: -1; pointer-events: none;
         }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 15px; }
 
-        .intro-section {
-            padding: 80px 20px 40px;
-            text-align: center;
-        }
-
+        .intro-section { padding: 60px 15px 30px; text-align: center; }
         .intro-section h1 {
-            font-family: 'Yuji Syuku', serif;
-            font-size: clamp(3rem, 15vw, 5rem);
-            margin: 0;
-            position: relative;
-            display: inline-block;
-        }
-
-        .intro-section h1::after {
-            content: ''; position: absolute; bottom: -10px; left: 50%;
-            width: 40px; height: 2px; background: var(--decoration);
-            transform: translateX(-50%);
+            font-family: 'Yuji Syuku', serif; font-size: clamp(3rem, 20vw, 6rem); margin: 0;
+            position: relative; display: inline-block;
         }
 
         h2.row-title {
-            font-size: 0.9rem; color: var(--decoration);
-            text-transform: uppercase; letter-spacing: 0.2em;
-            margin: 60px 0 20px;
-            display: flex; align-items: center;
+            font-size: 0.8rem; color: var(--decoration); text-transform: uppercase; letter-spacing: 0.2em;
+            margin: 50px 0 15px; display: flex; align-items: center;
         }
-        h2.row-title::after { content: ''; flex: 1; height: 1px; background: rgba(39, 174, 96, 0.2); margin-left: 15px; }
+        h2.row-title::after { content: ''; flex: 1; height: 1px; background: rgba(39, 174, 96, 0.2); margin-left: 10px; }
 
-        /* 横スクロールエリア */
         .card-row {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 20px;
-            padding: 10px 0 30px;
-            -webkit-overflow-scrolling: touch;
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            gap: 12px; padding: 10px 15px 30px; margin: 0 -15px;
+            scrollbar-width: none; -ms-overflow-style: none;
         }
         .card-row::-webkit-scrollbar { display: none; }
 
         .card {
-            flex: 0 0 280px;
-            scroll-snap-align: center;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 2px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            flex: 0 0 75%; scroll-snap-align: center; background: var(--card-bg);
+            border-radius: 8px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s ease;
+            opacity: 0; transform: translateY(20px);
         }
-        @media (max-width: 600px) { .card { flex: 0 0 85%; } }
+        .card.is-visible { opacity: 1; transform: translateY(0); }
 
-        .card img, .empty-img { 
-            width: 100%; height: 350px; object-fit: cover; 
+        .img-container {
+            width: 100%; height: 400px; background: #eee;
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
         }
-        .empty-img { background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #888; font-family: sans-serif;}
+
+        .card img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 2; }
+        .img-bg-blur {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(15px) brightness(0.9); opacity: 0.4; z-index: 1;
+        }
 
         .card-title {
-            padding: 20px;
-            background: white;
-            font-size: 0.9rem;
-            font-weight: bold;
-            border-top: 1px solid #f0f0f0;
+            padding: 15px; background: white; font-size: 0.85rem;
+            font-weight: bold; text-align: center; border-top: 1px solid #f0f0f0;
         }
 
-        /* クイズセクション */
         .quiz-section {
-            margin: 80px 0;
-            padding: 50px 20px;
-            background: rgba(255,255,255,0.6);
-            border-radius: 4px;
-            border: 1px dashed var(--quiz-accent);
+            margin: 60px 0; padding: 40px 10px;
+            background: rgba(255,255,255,0.7); border-radius: 12px; border: 1px dashed var(--quiz-accent);
         }
-        .quiz-title {
-            font-family: 'Yuji Syuku', serif;
-            color: var(--quiz-accent);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
+        .quiz-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .quiz-card {
-            background: white;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: white; padding: 10px 5px; text-align: center;
+            border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            opacity: 0; transform: scale(0.9); transition: 0.5s;
         }
+        .quiz-card.is-visible { opacity: 1; transform: scale(1); }
+
         .quiz-icon {
-            width: 60px; height: 60px;
-            background: #f8f9fa;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+            width: 100%; aspect-ratio: 1 / 1; background: #f8f9fa; border-radius: 50%; margin-bottom: 10px;
+            overflow: hidden; border: 2px solid #eee;
         }
         .quiz-icon img { width: 100%; height: 100%; object-fit: cover; filter: blur(8px); }
 
-        /* モーダル：完全中央寄せ */
         .modal {
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%;
-            background: rgba(44, 62, 80, 0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(8px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(44, 62, 80, 0.95); z-index: 2000;
+            justify-content: center; align-items: center; backdrop-filter: blur(10px);
+            opacity: 0; transition: opacity 0.3s;
         }
-
+        .modal.is-open { display: flex; opacity: 1; }
         .modal-content {
-            background: white;
-            width: 85%;
-            max-width: 400px;
-            max-height: 90vh;
-            border-radius: 0;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            position: relative;
-            animation: slideUp 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            overflow-y: auto;
+            background: white; width: 92%; max-width: 400px; max-height: 90vh;
+            border-radius: 12px; position: relative; overflow-y: auto;
+            transform: scale(0.9); transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
+        .modal.is-open .modal-content { transform: scale(1); }
 
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        .modal-img { width: 100%; height: auto; max-height: 50vh; object-fit: contain; background: #000; }
+        .modal-desc { padding: 25px 20px; }
+        .modal-desc h2 { font-size: 1.1rem; margin: 0 0 10px; color: var(--decoration); }
+        .modal-desc p { font-size: 0.9rem; margin: 0; }
+        .close-btn { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
-        .modal-img { width: 100%; height: 280px; object-fit: cover; }
-        .modal-desc { padding: 30px 20px; }
-        .modal-desc h2 { font-size: 1.2rem; margin-top: 0; border-bottom: 1px solid var(--decoration); padding-bottom: 10px; }
-        .modal-desc p { font-size: 0.95rem; line-height: 1.8; }
-        
-        .close-btn {
-            position: absolute;
-            top: 10px; right: 10px;
-            width: 35px; height: 35px;
-            background: white;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; cursor: pointer; z-index: 2100;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-
-        footer {
-            padding: 60px 0;
-            text-align: center;
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            opacity: 0.5;
-        }
-
+        footer { padding: 40px 0; text-align: center; font-size: 0.6rem; opacity: 0.4; }
     </style>
 </head>
 <body>
+
+<!-- 凝ったオープニングドア演出 -->
+<div id="door-overlay" onclick="openDoor()">
+    <div class="door door-left">
+        <div class="door-img"></div>
+    </div>
+    <div class="door door-right">
+        <div class="door-img"></div>
+    </div>
+    <div id="door-message">タップして断面を見る</div>
+</div>
 
 <div class="side-title">野菜の断面を巡る旅</div>
 
 <div class="intro-section">
     <h1>断</h1>
-    <p style="margin-top:20px; font-size:0.8rem; letter-spacing:0.3em;">INSIDE THE HARVEST</p>
+    <p style="margin-top:10px; font-size:0.75rem; letter-spacing:0.4em; color: var(--accent);">INSIDE THE HARVEST</p>
 </div>
 
 <div class="container">
-    
+    <h2 class="row-title">00 Definition</h2>
+    <div class="card-row">
+        <!-- サイト内のcase1.pngはそのまま野菜の定義として使用 -->
+        <div class="card" onclick="openModal('case1.png', '野菜とは', '食用に供される草本性の植物の総称です。主に根、茎、葉、そして未熟な果実などを指します。')">
+            <div class="img-container">
+                <div class="img-bg-blur" style="background-image:url('case1.png')"></div>
+                <img src="case1.png">
+            </div>
+            <div class="card-title">野菜の定義</div>
+        </div>
+        <div class="card" onclick="openModal('case2.png', '果物とは', '多年生の木本植物（樹木）に実る、食用可能な果実を指します。スイカなどは果実的野菜と呼ばれます。')">
+            <div class="img-container">
+                <div class="img-bg-blur" style="background-image:url('case2.png')"></div>
+                <img src="case2.png">
+            </div>
+            <div class="card-title">果物の定義</div>
+        </div>
+    </div>
+
+    <!-- 他のセクションは前回と同様に継続（省略せず一貫性保持） -->
     <h2 class="row-title">01 Observation</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('S__115392542.jpg', 'キャベツの結球構造', '葉が重なり合い球状になる「結球」の様子です。内側にいくほど葉が白く柔らかいのは、日光が当たらないためです。')">
-            <img src="S__115392542.jpg">
+        <div class="card" onclick="openModal('case3.png', 'キャベツの結球構造', '葉が重なり合い球状になる「結球」の様子。内側ほど白く柔らかいのが特徴。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case3.png')"></div><img src="case3.png"></div>
             <div class="card-title">結球の層</div>
         </div>
-        <div class="card" onclick="openModal('S__115392550.jpg', 'オクラの分画と胎座', '5つの子房室と中央の胎座が観察できます。この幾何学的な構造が、あの独特の食感を生み出しています。')">
-            <img src="S__115392550.jpg">
+        <div class="card" onclick="openModal('case4.png', 'オクラの分画と胎座', '5つの子房室と中央の胎座。幾何学的な構造が独特の食感を生みます。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case4.png')"></div><img src="case4.png"></div>
             <div class="card-title">五角形の機能美</div>
         </div>
-        <div class="card" onclick="openModal('S__115392530.jpg', '断面の多様性', '様々な野菜の内部構造を比較。植物ごとに異なる生存戦略が、その断面のデザインに現れています。')">
-            <img src="S__115392530.jpg">
-            <div class="card-title">多様な断面の比較</div>
+        <div class="card" onclick="openModal('case5.png', '断面の多様性', '様々な植物の生存戦略が、断面のデザインに現れています。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case5.png')"></div><img src="case5.png"></div>
+            <div class="card-title">多様な断面</div>
         </div>
     </div>
 
     <h2 class="row-title">02 History</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('', '世界を繋いだ断面', 'コロンブス交換以降、トマトやジャガイモが旧世界へ。断面にはグローバルな交易の歴史が刻まれています。')">
-            <div class="empty-img">HISTORY 01</div>
-            <div class="card-title">交易と野菜の伝播</div>
+        <div class="card" onclick="openModal('case6.png', '世界を繋いだ断面', 'コロンブス交換以降のトマトやジャガイモ。断面には交易の歴史が。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case6.png')"></div><img src="case6.png"></div>
+            <div class="card-title">交易の歴史</div>
         </div>
-        <div class="card" onclick="openModal('', 'デザインされた造形', '野生種はもっと小さく、断面もスカスカでした。現在の密な断面は、数千年に及ぶ選別の結果です。')">
-            <div class="empty-img">HISTORY 02</div>
-            <div class="card-title">選別と改良の歩み</div>
+        <div class="card" onclick="openModal('case7.png', 'デザインされた造形', '現在の密な断面は、数千年に及ぶ選別の結果です。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case7.png')"></div><img src="case7.png"></div>
+            <div class="card-title">改良の歩み</div>
         </div>
-        <div class="card" onclick="openModal('', '色彩の文化史', 'ニンジンのオレンジ色が定着したのは17世紀オランダと言われます。断面の色にも政治や文化が反映されています。')">
-            <div class="empty-img">HISTORY 03</div>
-            <div class="card-title">色彩に宿る文化</div>
+        <div class="card" onclick="openModal('case8.png', '色彩の文化史', 'ニンジンのオレンジ色など、断面の色にも文化が反映されています。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case8.png')"></div><img src="case8.png"></div>
+            <div class="card-title">色彩の文化</div>
         </div>
     </div>
 
     <h2 class="row-title">03 Boundary</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('', '野菜と果物の分岐点', 'スイカやイチゴは「果実的野菜」。木に成るか草に成るか、その境界線は断面の構造にも現れます。')">
-            <div class="empty-img">BOUNDARY 01</div>
-            <div class="card-title">定義の境界線</div>
+        <div class="card" onclick="openModal('case9.png', '定義の境界線', 'スイカやイチゴは「果実的野菜」。木か草か。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case9.png')"></div><img src="case9.png"></div>
+            <div class="card-title">定義の境界</div>
         </div>
-        <div class="card" onclick="openModal('', '江戸の園芸文化', '江戸時代の日本は世界屈指の園芸大国でした。断面の美しさを愛でる感性も、この頃に磨かれました。')">
-            <div class="empty-img">BOUNDARY 02</div>
-            <div class="card-title">日本独自の美学</div>
+        <div class="card" onclick="openModal('case10.png', '日本独自の美学', '断面の美を愛でる感性も江戸時代に磨かれました。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case10.png')"></div><img src="case10.png"></div>
+            <div class="card-title">日本の美学</div>
         </div>
-        <div class="card" onclick="openModal('', '野生と栽培の狭間', '栽培種が野生に戻る「脱馴化」。断面を比較することで、植物が人間との共生で何を失い、何を得たかが見えてきます。')">
-            <div class="empty-img">BOUNDARY 03</div>
+        <div class="card" onclick="openModal('case11.png', '共生の記録', '人間との共生で何を失い、何を得たか。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case11.png')"></div><img src="case11.png"></div>
             <div class="card-title">共生の記録</div>
         </div>
     </div>
 
     <h2 class="row-title">04 Science</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('', '導管と師管の地図', '水を運ぶ道と栄養を運ぶ道。断面に見える筋や点は、植物が生きるためのインフラ設備です。')">
-            <div class="empty-img">SCIENCE 01</div>
+        <div class="card" onclick="openModal('case12.png', '生命のインフラ', '水を運ぶ道と栄養を運ぶ道。植物が生きるための設備。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case12.png')"></div><img src="case12.png"></div>
             <div class="card-title">生命のインフラ</div>
         </div>
-        <div class="card" onclick="openModal('', 'フラクタルの秩序', 'ロマネスコのように、断面の中に同じ形が繰り返される構造。自然界が持つ数学的な美しさです。')">
-            <div class="empty-img">SCIENCE 02</div>
-            <div class="card-title">幾何学的な秩序</div>
+        <div class="card" onclick="openModal('case13.png', '幾何学的な秩序', 'ロマネスコのようなフラクタル構造。自然の数学的美。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case13.png')"></div><img src="case13.png"></div>
+            <div class="card-title">幾何学的秩序</div>
         </div>
-        <div class="card" onclick="openModal('', '酸化と変色の科学', '切った瞬間から始まる変化。断面の色が変わるのは、植物が身を守るための化学反応の結果です。')">
-            <div class="empty-img">SCIENCE 03</div>
-            <div class="card-title">一瞬の静止画</div>
+        <div class="card" onclick="openModal('case14.png', '一瞬の静止画', '断面の変化は植物が身を守るための化学反応。')">
+            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case14.png')"></div><img src="case14.png"></div>
+            <div class="card-title">変色の科学</div>
         </div>
     </div>
 
     <div class="quiz-section">
-        <h3 class="quiz-title">断面推測クイズ</h3>
+        <h3 style="text-align:center; font-family:'Yuji Syuku'; color:var(--quiz-accent); margin-bottom:20px;">断面推測クイズ</h3>
         <div class="quiz-grid">
-            <div class="quiz-card" onclick="openModal('S__115392550.jpg', '正解：オクラ', '特徴的な五角形。星のようなこの形は、種を等間隔に配置するための合理的デザインです。')">
-                <div class="quiz-icon"><img src="S__115392550.jpg"></div>
-                <div style="font-size:0.7rem;">Q. 星型の主は？</div>
+            <div class="quiz-card" onclick="openModal('case15.png', '正解：オクラ', '特徴的な五角形。星のようなこの形。')">
+                <div class="quiz-icon"><img src="case15.png"></div>
+                <div style="font-size:0.6rem; font-weight:bold;">Q1. 星型</div>
             </div>
-            <div class="quiz-card" onclick="openModal('S__115392542.jpg', '正解：キャベツ', '複雑に重なり合う曲線。これは1枚の葉ではなく、多くの葉が密集した宇宙です。')">
-                <div class="quiz-icon"><img src="S__115392542.jpg"></div>
-                <div style="font-size:0.7rem;">Q. この曲線美は？</div>
+            <div class="quiz-card" onclick="openModal('case16.png', '正解：キャベツ', '複雑に重なり合う曲線。小宇宙です。')">
+                <div class="quiz-icon"><img src="case16.png"></div>
+                <div style="font-size:0.6rem; font-weight:bold;">Q2. 曲線</div>
             </div>
-            <div class="quiz-card" onclick="openModal('S__115392530.jpg', '正解：集合体', '様々な個性が集まった一枚。断面それぞれの物語を比較してみてください。')">
-                <div class="quiz-icon"><img src="S__115392530.jpg"></div>
-                <div style="font-size:0.7rem;">Q. 断面の集合</div>
+            <div class="quiz-card" onclick="openModal('case17.png', '正解：集合体', '様々な断面の物語を比較してみてください。')">
+                <div class="quiz-icon"><img src="case17.png"></div>
+                <div style="font-size:0.6rem; font-weight:bold;">Q3. 集合</div>
             </div>
         </div>
     </div>
 
-    <footer>
-        MUSEUM PRACTICE III<br>
-        NEKO TO SAKANA PROJECT 2026
-    </footer>
+    <footer>MUSEUM PRACTICE III<br>NEKO TO SAKANA PROJECT 2026</footer>
 </div>
 
 <div id="infoModal" class="modal">
@@ -307,30 +314,53 @@
 </div>
 
 <script>
+    // オープニングドアの制御
+    function openDoor() {
+        const overlay = document.getElementById('door-overlay');
+        if (overlay.classList.contains('loaded')) return;
+
+        // 振動演出を追加
+        document.body.classList.add('cut-vibration');
+        
+        // 演出開始
+        overlay.classList.add('loaded');
+        
+        // アニメーション完了後に要素を削除
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            document.body.classList.remove('cut-vibration');
+        }, 1600);
+    }
+
+    // スクロール監視
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .quiz-card').forEach(el => observer.observe(el));
+
+    // モーダル制御
     function openModal(imgSrc, title, text) {
         const visualArea = document.getElementById('modalVisual');
-        if (!imgSrc) {
-            visualArea.innerHTML = `<div style="background:#f0f0f0; height:280px; display:flex; justify-content:center; align-items:center; font-size:1.5rem;">📷</div>`;
-        } else {
-            visualArea.innerHTML = `<img src="${imgSrc}" class="modal-img">`;
-        }
+        visualArea.innerHTML = `<img src="${imgSrc}" class="modal-img">`;
         document.getElementById('modalTitle').innerText = title;
         document.getElementById('modalText').innerText = text;
-        
         const modal = document.getElementById('infoModal');
-        modal.style.display = 'flex';
+        modal.classList.add('is-open');
         document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
-        document.getElementById('infoModal').style.display = 'none';
-        document.body.style.overflow = 'auto';
+        const modal = document.getElementById('infoModal');
+        modal.classList.remove('is-open');
+        setTimeout(() => { document.body.style.overflow = ''; }, 300);
     }
 
-    window.onclick = function(event) {
-        const modal = document.getElementById('infoModal');
-        if (event.target == modal) closeModal();
-    }
+    window.onclick = (e) => { if (e.target.id === 'infoModal') closeModal(); }
 </script>
 
 </body>
