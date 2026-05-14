@@ -181,17 +181,17 @@
 
     <h2 class="row-title">01 Observation</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('case3.png','断面の多様性：赤の力','赤い果物や野菜に含まれる成分は、老化や病気の原因となる活性酸素を除去する強力な抗酸化作用を備えているのが特徴である。中心となる成分は、トマトやスイカに豊富な「リコピン」、これはビタミンEの100倍以上の抗酸化力を持ち、動脈硬化の予防や、紫外線による肌ダメージを軽減する美肌効果が期待できる。一方、リンゴの皮やイチゴに含まれる「アントシアニン」は、ポリフェノールの一種で、目の疲れの緩和や、血管の炎症を抑える働きがあります。こちらは水溶性で熱に弱いため、生で皮ごと食べるのが効率的です。また、ドラゴンフルーツ（赤肉種）には、さらに希少な「ベタシアニン」が含まれ、体内のデトックスや老化防止を強力にサポートします。赤い食材は、それぞれの成分特性に合わせた食べ方を選ぶことで、健康への恩恵を最大限に引き出すことができます。')">
+        <div class="card" onclick="openModal('case3.png','赤の力','赤い果物や野菜に含まれる成分は、老化や病気の原因となる活性酸素を除去する強力な抗酸化作用を備えているのが特徴である。\n中心となる成分は、トマトやスイカに豊富な「リコピン」、これはビタミンEの100倍以上の抗酸化力を持ち、動脈硬化の予防や、紫外線による肌ダメージを軽減する美肌効果が期待できる。一方、リンゴの皮やイチゴに含まれる「アントシアニン」は、ポリフェノールの一種で、目の疲れの緩和や、血管の炎症を抑える働きがあります。こちらは水溶性で熱に弱いため、生で皮ごと食べるのが効率的です。また、ドラゴンフルーツ（赤肉種）には、さらに希少な「ベタシアニン」が含まれ、体内のデトックスや老化防止を強力にサポートします。\n赤い食材は、それぞれの成分特性に合わせた食べ方を選ぶことで、健康への恩恵を最大限に引き出すことができます。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case3.png')"></div><img src="case3.png"></div>
             <div class="card-title">赤色</div>
         </div>
-        <div class="card" onclick="openModal('case4.png', '断面の多様性：黄の守護', 'カボチャやオレンジに多い「β-カロテン」です。体内でビタミンAに変換され、皮膚や粘膜を丈夫にし、視力を維持する効果があります。また、オレンジには「β-クリプトキサンチン」という成分も多く、骨の健康維持を助けます。これらは脂溶性のため、カボチャなどは油で調理すると吸収率が上がります。一方、パイナップルの黄色は「フラボノイド」などによるもので、抗酸化作用に加えて、消化を助ける酵素「ブロメライン」を含んでいるのが特徴です。これはタンパク質を分解し、胃腸の負担を軽くします。黄色の食材は、体を内側から保護し、エネルギー代謝や消化をスムーズにする「防御と循環」の役割を担っています。')">
+        <div class="card" onclick="openModal('case4.png', '黄の守護', 'カボチャやオレンジに多い「β-カロテン」です。体内でビタミンAに変換され、皮膚や粘膜を丈夫にし、視力を維持する効果があります。また、オレンジには「β-クリプトキサンチン」という成分も多く、骨の健康維持を助けます。これらは脂溶性のため、カボチャなどは油で調理すると吸収率が上がります。一方、パイナップルの黄色は「フラボノイド」などによるもので、抗酸化作用に加えて、消化を助ける酵素「ブロメライン」を含んでいるのが特徴です。これはタンパク質を分解し、胃腸の負担を軽くします。黄色の食材は、体を内側から保護し、エネルギー代謝や消化をスムーズにする「防御と循環」の役割を担っています。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case4.png')"></div><img src="case4.png"></div>
-            <div class="card-title">黄色,カロテノイド</div>
+            <div class="card-title">黄色,</div>
         </div>
-        <div class="card" onclick="openModal('case5.png', '断面の多様性', '植物の生存戦略が断面のデザインに現れています。種子を守り、あるいは遠くへ運ぶための構造が、私たちに驚きを与えてくれます。')">
+        <div class="card" onclick="openModal('case5.png', '', '植物の生存戦略が断面のデザインに現れています。種子を守り、あるいは遠くへ運ぶための構造が、私たちに驚きを与えてくれます。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case5.png')"></div><img src="case5.png"></div>
-            <div class="card-title">多様な形</div>
+            <div class="card-title">緑</div>
         </div>
     </div>
 
@@ -260,7 +260,7 @@
     function openModal(imgSrc, title, text) {
         document.getElementById('modalVisual').innerHTML = `<img src="${imgSrc}" class="modal-img">`;
         document.getElementById('modalTitle').innerText = title;
-        document.getElementById('modalText').innerText = text;
+        document.getElementById('modalText').innerHTML = text.replace(/\n/g, '<br>');
         
         const modal = document.getElementById('infoModal');
         modal.classList.add('is-open');
