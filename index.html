@@ -12,6 +12,7 @@
             --text-color: #2c3e50;
             --accent: #e67e22;
             --decoration: #27ae60;
+            --quiz-accent: #9b59b6;
             --card-bg: rgba(255, 255, 255, 0.8);
         }
 
@@ -20,14 +21,12 @@
             margin: 0; background-color: var(--bg-color); color: var(--text-color);
             line-height: 1.8;
             overflow-x: hidden;
-            /* 和紙のような質感の背景 */
             background-image: 
                 radial-gradient(var(--decoration) 0.5px, transparent 0.5px),
                 url("https://www.transparenttextures.com/patterns/natural-paper.png");
             background-size: 40px 40px, auto;
         }
 
-        /* 縦書きのサイドタイトル（スマホでも端に配置） */
         .side-title {
             position: fixed; right: 10px; top: 20%;
             writing-mode: vertical-rl;
@@ -79,25 +78,21 @@
         }
         .card-row::-webkit-scrollbar { display: none; }
 
-        /* カードデザイン（グラスモーフィズム風） */
         .card {
             flex: 0 0 280px;
             scroll-snap-align: center;
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 2px; /* あえて少し角を立たせてギャラリー感を出す */
+            border-radius: 2px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             transition: transform 0.3s ease;
         }
         @media (max-width: 600px) { .card { flex: 0 0 85%; } }
 
-        .card:active { transform: scale(0.98); }
-
         .card img, .empty-img { 
             width: 100%; height: 350px; object-fit: cover; 
-            transition: filter 0.3s ease;
         }
         .empty-img { background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #888; }
 
@@ -106,32 +101,60 @@
             background: white;
             font-size: 0.9rem;
             font-weight: bold;
-            text-align: left;
-            position: relative;
-        }
-        .card-title::before {
-            content: '●'; color: var(--decoration); margin-right: 8px; font-size: 0.6rem;
+            border-top: 1px solid #f0f0f0;
         }
 
-        /* クイズエリア */
+        /* クイズセクション - 復活＆強化 */
         .quiz-section {
             margin: 80px 0;
-            padding: 40px 20px;
-            background: white;
-            border-radius: 20px;
+            padding: 50px 20px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 4px;
+            border: 1px dashed var(--quiz-accent);
+        }
+        .quiz-title {
+            font-family: 'Yuji Syuku', serif;
+            color: var(--quiz-accent);
+            margin-bottom: 30px;
             text-align: center;
         }
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .quiz-card {
+            background: white;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .quiz-card:hover { transform: translateY(-5px); }
+        .quiz-icon {
+            width: 70px; height: 70px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .quiz-icon img { width: 100%; height: 100%; object-fit: cover; filter: blur(8px); }
 
-        /* モーダル：ここが修正のキモ */
+        /* モーダル：中央寄せ修正版 */
         .modal {
             display: none; 
             position: fixed; 
             top: 0; left: 0; 
             width: 100%; height: 100%;
-            background: rgba(255, 250, 240, 0.95); /* 背景色に合わせた透過 */
+            background: rgba(44, 62, 80, 0.8);
             z-index: 2000;
-            /* 中央寄せの設定 */
-            display: none;
+            /* Flexboxで上下左右中央に配置 */
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(8px);
@@ -139,34 +162,34 @@
 
         .modal-content {
             background: white;
-            width: 90%;
-            max-width: 450px;
-            max-height: 85vh;
-            border-radius: 0; /* 直線的なデザイン */
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            overflow-y: auto;
+            width: 85%;
+            max-width: 400px;
+            border-radius: 0;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             position: relative;
             animation: slideUp 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
         }
 
         @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
+            from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .modal-img { width: 100%; height: 300px; object-fit: cover; }
-        .modal-desc { padding: 35px 25px; }
-        .modal-desc h2 { font-size: 1.4rem; margin-top: 0; color: var(--text-color); }
+        .modal-img { width: 100%; height: 280px; object-fit: cover; }
+        .modal-desc { padding: 30px 20px; }
+        .modal-desc h2 { font-size: 1.2rem; margin-top: 0; border-bottom: 1px solid var(--decoration); padding-bottom: 10px; }
+        .modal-desc p { font-size: 0.95rem; margin-bottom: 0; }
         
         .close-btn {
             position: absolute;
-            top: 15px; right: 15px;
-            width: 40px; height: 40px;
+            top: 10px; right: 10px;
+            width: 35px; height: 35px;
             background: white;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 24px; cursor: pointer; z-index: 2100;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 20px; cursor: pointer; z-index: 2100;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
 
         footer {
@@ -192,15 +215,15 @@
     
     <h2 class="row-title">01 Observation</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('S__115392542.jpg', 'キャベツの結球構造', '葉が重なり合い球状になる「結球」の様子です。')">
+        <div class="card" onclick="openModal('S__115392542.jpg', 'キャベツの結球構造', '葉が重なり合い球状になる「結球」の様子です。何層にも重なる葉は、外敵から成長点を守る役割があります。')">
             <img src="S__115392542.jpg">
             <div class="card-title">結球の層</div>
         </div>
-        <div class="card" onclick="openModal('S__115392550.jpg', 'オクラの分画と胎座', '5つの子房室と中央の胎座が観察できます。')">
+        <div class="card" onclick="openModal('S__115392550.jpg', 'オクラの分画と胎座', '5つの子房室と、種が並ぶ中央の胎座が観察できます。この星型は、効率よく種を運ぶための自然の幾何学です。')">
             <img src="S__115392550.jpg">
             <div class="card-title">五角形の機能美</div>
         </div>
-        <div class="card" onclick="openModal('S__115392530.jpg', '断面の多様性', '様々な野菜の内部構造を比較できます。')">
+        <div class="card" onclick="openModal('S__115392530.jpg', '断面の多様性', '様々な野菜の内部構造を比較できます。似たような見た目でも、切ってみると全く異なる宇宙が広がっています。')">
             <img src="S__115392530.jpg">
             <div class="card-title">多様な断面</div>
         </div>
@@ -208,29 +231,28 @@
 
     <h2 class="row-title">02 History</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('', '世界を繋いだ断面', '大航海時代を経て新大陸から運ばれた野菜の伝播史。')">
-            <div class="empty-img">NO IMAGE</div>
+        <div class="card" onclick="openModal('', '世界を繋いだ断面', '大航海時代を経て新大陸から運ばれた野菜の伝播史。断面の中に、何千キロもの旅の記憶が刻まれています。')">
+            <div class="empty-img">HISTORY 01</div>
             <div class="card-title">世界を繋いだ断面</div>
         </div>
-        <div class="card" onclick="openModal('', 'デザインされた造形', '野生種から数千年かけて変化した、人類の欲望の記録。')">
-            <div class="empty-img">NO IMAGE</div>
+        <div class="card" onclick="openModal('', 'デザインされた造形', '野生種から数千年かけて変化した、人類の欲望の記録。私たちが食べる断面は、実は人為的に選別された「美」でもあります。')">
+            <div class="empty-img">HISTORY 02</div>
             <div class="card-title">デザインされた造形</div>
-        </div>
-        <div class="card" onclick="openModal('', '色彩の文化史', 'ニンジンのオレンジ色がたどった意外な政治的歴史。')">
-            <div class="empty-img">NO IMAGE</div>
-            <div class="card-title">色彩の文化史</div>
         </div>
     </div>
 
-    <h2 class="row-title">03 Boundary</h2>
-    <div class="card-row">
-        <div class="card" onclick="openModal('', '野菜と果物の分岐点', '「木」か「草」か。人間が引いた分類の境界線。')">
-            <div class="empty-img">NO IMAGE</div>
-            <div class="card-title">野菜と果物の分岐点</div>
-        </div>
-        <div class="card" onclick="openModal('', '江戸の品種改良', '浮世絵にも描かれた、日本独自の野菜美学。')">
-            <div class="empty-img">NO IMAGE</div>
-            <div class="card-title">江戸の品種改良</div>
+    <!-- クイズセクション復活 -->
+    <div class="quiz-section">
+        <h3 class="quiz-title">断面推測：其の一</h3>
+        <div class="quiz-grid">
+            <div class="quiz-card" onclick="openModal('S__115392550.jpg', '正解：オクラ', '拡大するとまるで星のような造形。この五角形がオクラの最大の特徴ですね！')">
+                <div class="quiz-icon"><img src="S__115392550.jpg"></div>
+                <div style="font-size:0.8rem;">Q1. この星型は何？</div>
+            </div>
+            <div class="quiz-card" onclick="openModal('S__115392542.jpg', '正解：キャベツ', '複雑に入り組んだ白い線は、ぎゅっと詰まった葉の隙間でした。')">
+                <div class="quiz-icon"><img src="S__115392542.jpg"></div>
+                <div style="font-size:0.8rem;">Q2. この迷宮は何？</div>
+            </div>
         </div>
     </div>
 
@@ -240,7 +262,7 @@
     </footer>
 </div>
 
-<!-- モーダル構造 -->
+<!-- モーダル -->
 <div id="infoModal" class="modal">
     <div class="modal-content">
         <div class="close-btn" onclick="closeModal()">&times;</div>
@@ -256,7 +278,7 @@
     function openModal(imgSrc, title, text) {
         const visualArea = document.getElementById('modalVisual');
         if (!imgSrc) {
-            visualArea.innerHTML = `<div style="background:#f0f0f0; height:300px; display:flex; justify-content:center; align-items:center; font-size:1.5rem;">📷</div>`;
+            visualArea.innerHTML = `<div style="background:#f0f0f0; height:280px; display:flex; justify-content:center; align-items:center; font-size:1.5rem;">🥗</div>`;
         } else {
             visualArea.innerHTML = `<img src="${imgSrc}" class="modal-img">`;
         }
@@ -264,7 +286,7 @@
         document.getElementById('modalText').innerText = text;
         
         const modal = document.getElementById('infoModal');
-        modal.style.display = 'flex'; // blockではなくflexにすることで中央寄せ
+        modal.style.display = 'flex'; // flexで中央寄せ
         document.body.style.overflow = 'hidden';
     }
 
@@ -273,7 +295,6 @@
         document.body.style.overflow = 'auto';
     }
 
-    // モーダルの外側をクリックしても閉じる
     window.onclick = function(event) {
         const modal = document.getElementById('infoModal');
         if (event.target == modal) closeModal();
