@@ -50,13 +50,26 @@
         .side-title { position: fixed; right: 10px; top: 20%; writing-mode: vertical-rl; font-family: 'Yuji Syuku', serif; letter-spacing: 0.5em; opacity: 0.15; font-size: 1.1rem; z-index: -1; pointer-events: none; }
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
 
-        /* タイトルエリアの特殊装飾 */
-        .intro-section { padding: 80px 15px 40px; text-align: center; position: relative; }
+        /* --- タイトルエリア（intro3を大きく表示） --- */
+        .intro-section { padding: 100px 15px 60px; text-align: center; position: relative; }
         .title-wrapper { position: relative; display: inline-block; }
-        .intro-section h1 { font-family: 'Yuji Syuku', serif; font-size: clamp(3.5rem, 18vw, 6rem); margin: 0; position: relative; z-index: 2; }
+        .intro-section h1 { 
+            font-family: 'Yuji Syuku', serif; 
+            font-size: clamp(4rem, 22vw, 7rem); 
+            margin: 0; 
+            position: relative; 
+            z-index: 2; 
+            color: rgba(44, 62, 80, 0.9); /* 少し透明にして背景を透かす */
+        }
         .title-bg-img {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 120%; height: 120%; object-fit: contain; z-index: 1; opacity: 0.4;
+            position: absolute; 
+            top: 55%; left: 50%; 
+            transform: translate(-50%, -50%);
+            width: 280px; /* ここを大きく調整 */
+            height: auto; 
+            z-index: 1; 
+            opacity: 0.8; /* はっきり見えるようにアップ */
+            pointer-events: none;
         }
 
         h2.row-title { font-size: 0.75rem; color: var(--decoration); text-transform: uppercase; letter-spacing: 0.2em; margin: 40px 0 15px; display: flex; align-items: center; opacity: 0.8; }
@@ -66,15 +79,13 @@
         .card-row {
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
             gap: 15px; padding: 10px 0 30px;
-            /* スクロールバーを少しだけ見えるように設定（モダンブラウザ） */
             scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.1) transparent;
         }
-        /* Webkit用スクロールバー設定（スマホの操作感を邪魔しない程度に） */
         .card-row::-webkit-scrollbar { height: 3px; }
         .card-row::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }
 
         .card {
-            flex: 0 0 65%; /* 48%から65%に。これにより2枚目の端が確実に切れて見え、3枚目の存在を予感させます */
+            flex: 0 0 65%; 
             scroll-snap-align: center; background: var(--card-bg);
             border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s ease;
@@ -124,7 +135,7 @@
         <img src="intro3.png" class="title-bg-img">
         <h1>断</h1>
     </div>
-    <p style="margin-top:12px; font-size:0.75rem; letter-spacing:0.45em; color: var(--accent); opacity: 0.8;">INSIDE THE HARVEST</p>
+    <p style="margin-top:20px; font-size:0.8rem; letter-spacing:0.5em; color: var(--accent); opacity: 0.9;">INSIDE THE HARVEST</p>
 </div>
 
 <div class="container">
