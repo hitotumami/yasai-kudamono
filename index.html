@@ -50,7 +50,6 @@
         .side-title { position: fixed; right: 10px; top: 20%; writing-mode: vertical-rl; font-family: 'Yuji Syuku', serif; letter-spacing: 0.5em; opacity: 0.15; font-size: 1.1rem; z-index: -1; pointer-events: none; }
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- タイトルエリア（intro3を大きく表示） --- */
         .intro-section { padding: 100px 15px 60px; text-align: center; position: relative; }
         .title-wrapper { position: relative; display: inline-block; }
         .intro-section h1 { 
@@ -59,23 +58,22 @@
             margin: 0; 
             position: relative; 
             z-index: 2; 
-            color: rgba(44, 62, 80, 0.9); /* 少し透明にして背景を透かす */
+            color: rgba(44, 62, 80, 0.9);
         }
         .title-bg-img {
             position: absolute; 
             top: 55%; left: 50%; 
             transform: translate(-50%, -50%);
-            width: 280px; /* ここを大きく調整 */
+            width: 280px; 
             height: auto; 
             z-index: 1; 
-            opacity: 0.8; /* はっきり見えるようにアップ */
+            opacity: 0.8; 
             pointer-events: none;
         }
 
         h2.row-title { font-size: 0.75rem; color: var(--decoration); text-transform: uppercase; letter-spacing: 0.2em; margin: 40px 0 15px; display: flex; align-items: center; opacity: 0.8; }
         h2.row-title::after { content: ''; flex: 1; height: 1px; background: rgba(39, 174, 96, 0.15); margin-left: 10px; }
 
-        /* --- スクロールのヒント（チラ見せ） --- */
         .card-row {
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
             gap: 15px; padding: 10px 0 30px;
@@ -98,7 +96,7 @@
         .img-bg-blur { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(10px); opacity: 0.2; z-index: 1; }
         .card-title { padding: 12px; background: white; font-size: 0.75rem; font-weight: bold; text-align: center; border-top: 1px solid #f9f9f9; }
 
-        /* --- クイズセクション（2x2グリッド） --- */
+        /* --- クイズセクション --- */
         .quiz-section { margin: 50px 0; padding: 35px 15px; background: rgba(255,255,255,0.5); border-radius: 24px; border: 1px solid rgba(155, 89, 182, 0.1); }
         .quiz-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .quiz-card { background: white; padding: 25px 10px; text-align: center; border-radius: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); opacity: 0; transform: scale(0.95); transition: 0.5s; }
@@ -106,17 +104,46 @@
         .quiz-icon { width: 65px; height: 65px; background: #f8f9fa; border-radius: 50%; margin: 0 auto 12px; overflow: hidden; border: 1px solid #eee; }
         .quiz-icon img { width: 100%; height: 100%; object-fit: cover; filter: blur(6px); opacity: 0.7; }
 
-        /* モーダル */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 62, 80, 0.98); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s; }
+        /* --- モーダル（不具合修正版） --- */
+        .modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(44, 62, 80, 0.98); z-index: 2000; 
+            justify-content: center; align-items: center; backdrop-filter: blur(10px); 
+            opacity: 0; transition: opacity 0.3s; 
+        }
         .modal.is-open { display: flex; opacity: 1; }
-        .modal-content { background: white; width: 90%; max-width: 400px; border-radius: 20px; position: relative; transform: scale(0.9); transition: 0.3s; overflow: hidden; }
+        
+        .modal-content { 
+            background: white; width: 90%; max-width: 400px; 
+            max-height: 85vh; /* 画面からはみ出さないように制限 */
+            border-radius: 20px; position: relative; 
+            transform: scale(0.9); transition: 0.3s; 
+            overflow: hidden; 
+            display: flex; flex-direction: column; /* 中身を縦並びに */
+        }
         .modal.is-open .modal-content { transform: scale(1); }
-        .modal-img { width: 100%; background: #000; padding: 20px; }
-        .modal-desc /* モーダルの説明文エリアを修正 */
-        .modal-desc {  padding: 20px;  max-height: 250px; /* 高さを制限 */ overflow-y: auto;  /* 縦スクロールを許可 */ -webkit-overflow-scrolling: touch; /* スマホで滑らかに */}
-        .modal-desc h2 { font-size: 1.1rem; color: var(--decoration); margin: 0 0 10px; }
-        .modal-desc p { font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
-        .close-btn { position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; font-weight: bold; }
+        
+        #modalVisual { flex-shrink: 0; width: 100%; background: #000; display: flex; align-items: center; justify-content: center; }
+        .modal-img { width: 100%; max-height: 250px; object-fit: contain; padding: 20px; }
+
+        .modal-desc { 
+            padding: 20px 25px 30px; 
+            overflow-y: auto; /* 長文の時はここだけスクロール */
+            -webkit-overflow-scrolling: touch;
+            background: white;
+        }
+        .modal-desc h2 { font-size: 1.1rem; color: var(--decoration); margin: 0 0 10px; font-family: 'Shippori Mincho', serif; }
+        .modal-desc p { font-size: 0.85rem; line-height: 1.8; opacity: 0.9; margin: 0; text-align: justify; }
+
+        .close-btn { 
+            position: absolute; top: 15px; right: 15px; 
+            width: 36px; height: 36px; 
+            background: rgba(255,255,255,0.9); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            z-index: 3000; font-weight: bold; font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
 
         footer { padding: 60px 0 40px; text-align: center; font-size: 0.55rem; letter-spacing: 0.2em; opacity: 0.4; }
     </style>
@@ -142,7 +169,7 @@
 <div class="container">
     <h2 class="row-title">00 Definition</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('case1.png', '野菜とは', '野菜とは、主に食用として栽培される草本性植物の総称であり、葉・根・茎・果実などを副食として利用する食品を指す。ただし明確な統一基準はなく、栽培方法や食べ方、統計・栄養学上の目的によって分類は変化する。例えば、農林水産省では、苗を植えて1年で収穫する草本植物は「野菜」として取り扱われる')">
+        <div class="card" onclick="openModal('case1.png', '野菜とは', '野菜とは、主に食用として栽培される草本性植物の総称であり、葉・根・茎・果実などを副食として利用する食品を指す。ただし明確な統一基準はなく、栽培方法や食べ方、統計・栄養学上の目的によって分類は変化する。例えば、農林水産省では、苗を植えて1年で収穫する草本植物は「野菜」として取り扱われる。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case1.png')"></div><img src="case1.png"></div>
             <div class="card-title">野菜の定義</div>
         </div>
@@ -154,86 +181,43 @@
 
     <h2 class="row-title">01 Observation</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('case3.png','断面の多様性','赤い果物や野菜に含まれる成分は、老化や病気の原因となる活性酸素を除去する強力な抗酸化作用を備えているのが特徴である。中心となる成分は、トマトやスイカに豊富な「リコピン」、これはビタミンEの100倍以上の抗酸化力を持ち、動脈硬化の予防や、紫外線による肌ダメージを軽減する美肌効果が期待できる。一方、リンゴの皮やイチゴに含まれる「アントシアニン」は、ポリフェノールの一種で、目の疲れの緩和や、血管の炎症を抑える働きがあります。こちらは水溶性で熱に弱いため、生で皮ごと食べるのが効率的です。また、ドラゴンフルーツ（赤肉種）には、さらに希少な「ベタシアニン」が含まれ、体内のデトックスや老化防止を強力にサポートします。赤い食材は、それぞれの成分特性に合わせた食べ方を選ぶことで、健康への恩恵を最大限に引き出すことができます。。')">
+        <div class="card" onclick="openModal('case3.png','断面の多様性：赤の力','赤い果物や野菜に含まれる成分は、老化や病気の原因となる活性酸素を除去する強力な抗酸化作用を備えているのが特徴である。中心となる成分は、トマトやスイカに豊富な「リコピン」、これはビタミンEの100倍以上の抗酸化力を持ち、動脈硬化の予防や、紫外線による肌ダメージを軽減する美肌効果が期待できる。一方、リンゴの皮やイチゴに含まれる「アントシアニン」は、ポリフェノールの一種で、目の疲れの緩和や、血管の炎症を抑える働きがあります。こちらは水溶性で熱に弱いため、生で皮ごと食べるのが効率的です。また、ドラゴンフルーツ（赤肉種）には、さらに希少な「ベタシアニン」が含まれ、体内のデトックスや老化防止を強力にサポートします。赤い食材は、それぞれの成分特性に合わせた食べ方を選ぶことで、健康への恩恵を最大限に引き出すことができます。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case3.png')"></div><img src="case3.png"></div>
             <div class="card-title">赤色</div>
         </div>
-        <div class="card" onclick="openModal('case4.png', '断面の多様性','カボチャやオレンジに多い「β-カロテン」です。体内でビタミンAに変換され、皮膚や粘膜を丈夫にし、視力を維持する効果があります。また、オレンジには「β-クリプトキサンチン」という成分も多く、骨の健康維持を助けます。これらは脂溶性のため、カボチャなどは油で調理すると吸収率が上がります。一方、パイナップルの黄色は「フラボノイド」などによるもので、抗酸化作用に加えて、消化を助ける酵素「ブロメライン」を含んでいるのが特徴です。これはタンパク質を分解し、胃腸の負担を軽くします。黄色の食材は、体を内側から保護し、エネルギー代謝や消化をスムーズにする「防御と循環」の役割を担っています。')">
+        <div class="card" onclick="openModal('case4.png', '断面の多様性：黄の守護', 'カボチャやオレンジに多い「β-カロテン」です。体内でビタミンAに変換され、皮膚や粘膜を丈夫にし、視力を維持する効果があります。また、オレンジには「β-クリプトキサンチン」という成分も多く、骨の健康維持を助けます。これらは脂溶性のため、カボチャなどは油で調理すると吸収率が上がります。一方、パイナップルの黄色は「フラボノイド」などによるもので、抗酸化作用に加えて、消化を助ける酵素「ブロメライン」を含んでいるのが特徴です。これはタンパク質を分解し、胃腸の負担を軽くします。黄色の食材は、体を内側から保護し、エネルギー代謝や消化をスムーズにする「防御と循環」の役割を担っています。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case4.png')"></div><img src="case4.png"></div>
             <div class="card-title">黄色,カロテノイド</div>
         </div>
-        <div class="card" onclick="openModal( '断面の多様性', '生存戦略が断面のデザインに現れています。')">
+        <div class="card" onclick="openModal('case5.png', '断面の多様性', '植物の生存戦略が断面のデザインに現れています。種子を守り、あるいは遠くへ運ぶための構造が、私たちに驚きを与えてくれます。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case5.png')"></div><img src="case5.png"></div>
             <div class="card-title">多様な形</div>
         </div>
     </div>
 
+    <!-- 他のセクションも同様に openModal を呼び出し -->
     <h2 class="row-title">02 History</h2>
     <div class="card-row">
-        <div class="card" onclick="openModal('case6.png', '世界を繋いだ断面', 'コロンブス交換以降のトマトやジャガイモ。交易の歴史。')">
+        <div class="card" onclick="openModal('case6.png', '世界を繋いだ断面', 'コロンブス交換以降、トマトやジャガイモは海を渡り、世界の食文化を劇的に変えました。交易の歴史が今の食卓を作っています。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case6.png')"></div><img src="case6.png"></div>
             <div class="card-title">交易の歴史</div>
         </div>
-        <div class="card" onclick="openModal('case7.png', 'デザインされた造形', '現在の断面は、数千年に及ぶ選別の結果です。')">
+        <div class="card" onclick="openModal('case7.png', 'デザインされた造形', '野生種には見られない豊かな果肉や色彩。現在の美しい断面は、人類が数千年にわたり繰り返してきた選別と品種改良の結晶です。')">
             <div class="img-container"><div class="img-bg-blur" style="background-image:url('case7.png')"></div><img src="case7.png"></div>
             <div class="card-title">改良の歩み</div>
-        </div>
-        <div class="card" onclick="openModal('case8.png', '色彩の文化史', '断面の色にもその土地の文化が反映されています。')">
-            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case8.png')"></div><img src="case8.png"></div>
-            <div class="card-title">色彩の文化</div>
-        </div>
-    </div>
-
-    <h2 class="row-title">03 Boundary</h2>
-    <div class="card-row">
-        <div class="card" onclick="openModal('case9.png', '定義の境界線', 'スイカやイチゴは「果実的野菜」。木か草か。')">
-            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case9.png')"></div><img src="case9.png"></div>
-            <div class="card-title">境界の定義</div>
-        </div>
-        <div class="card" onclick="openModal('case10.png', '日本独自の美学', '断面を愛でる感性は江戸時代に磨かれました。')">
-            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case10.png')"></div><img src="case10.png"></div>
-            <div class="card-title">日本の美学</div>
-        </div>
-        <div class="card" onclick="openModal('case11.png', '共生の記録', '人間との共生で何を得たかが断面に刻まれています。')">
-            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case11.png')"></div><img src="case11.png"></div>
-            <div class="card-title">共生の記録</div>
-        </div>
-    </div>
-
-    <h2 class="row-title">04 Science</h2>
-    <div class="card-row">
-        <div class="card" onclick="openModal('case12.png', '生命のインフラ', '水を運ぶ道と栄養を運ぶ道。生きるための設備。')">
-            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case12.png')"></div><img src="case12.png"></div>
-            <div class="card-title">生命の管</div>
-        </div>
-        <div class="card" onclick="openModal('case13.png', '幾何学的な秩序', 'ロマネスコのような数学的な美しさ。')">
-            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case13.png')"></div><img src="case13.png"></div>
-            <div class="card-title">数学的美</div>
-        </div>
-        <div class="card" onclick="openModal('case14.png', '変色の科学', '断面の変化は身を守るための化学反応。')">
-            <div class="img-container"><div class="img-bg-blur" style="background-image:url('case14.png')"></div><img src="case14.png"></div>
-            <div class="card-title">変色の仕組み</div>
         </div>
     </div>
 
     <div class="quiz-section">
         <h3 style="text-align:center; font-family:'Yuji Syuku'; color:var(--quiz-accent); margin-bottom:25px; font-size:1.1rem;">断面推測クイズ</h3>
         <div class="quiz-grid">
-            <div class="quiz-card" onclick="openModal('case15.png', '正解：オクラ', '特徴的な五角形。星のようなこの形。')">
+            <div class="quiz-card" onclick="openModal('case15.png', '正解：オクラ', '特徴的な五角形。星のようなこの形は、種を効率よく配置するための自然のデザインです。')">
                 <div class="quiz-icon"><img src="case15.png"></div>
                 <div style="font-size:0.65rem; font-weight:bold;">Q1. 星型</div>
             </div>
-            <div class="quiz-card" onclick="openModal('case16.png', '正解：キャベツ', '複雑に重なり合う曲線。小宇宙です。')">
+            <div class="quiz-card" onclick="openModal('case16.png', '正解：キャベツ', '複雑に重なり合う曲線。葉が中心に向かって巻き込むことで、寒さや乾燥から身を守っています。')">
                 <div class="quiz-icon"><img src="case16.png"></div>
                 <div style="font-size:0.65rem; font-weight:bold;">Q2. 曲線</div>
-            </div>
-            <div class="quiz-card" onclick="openModal('case17.png', '正解：パプリカ', '空洞がある独特の形。')">
-                <div class="quiz-icon"><img src="case17.png"></div>
-                <div style="font-size:0.65rem; font-weight:bold;">Q3. 空洞</div>
-            </div>
-            <div class="quiz-card" onclick="openModal('case18.png', '正解：レンコン', '複数の穴が開いているのが特徴です。')">
-                <div class="quiz-icon"><img src="case18.png"></div>
-                <div style="font-size:0.65rem; font-weight:bold;">Q4. 円の連なり</div>
             </div>
         </div>
     </div>
@@ -243,6 +227,7 @@
 
 <div id="infoModal" class="modal">
     <div class="modal-content">
+        <!-- 閉じるボタンをコンテンツ内の最上層に配置 -->
         <div class="close-btn" onclick="closeModal()">&times;</div>
         <div id="modalVisual"></div>
         <div class="modal-desc">
@@ -276,17 +261,27 @@
         document.getElementById('modalVisual').innerHTML = `<img src="${imgSrc}" class="modal-img">`;
         document.getElementById('modalTitle').innerText = title;
         document.getElementById('modalText').innerText = text;
+        
         const modal = document.getElementById('infoModal');
         modal.classList.add('is-open');
+        
+        // 背面のスクロールを禁止
         document.body.style.overflow = 'hidden';
+        // モーダル内のスクロール位置をリセット
+        document.querySelector('.modal-desc').scrollTop = 0;
     }
 
     function closeModal() {
         document.getElementById('infoModal').classList.remove('is-open');
-        setTimeout(() => { document.body.style.overflow = ''; }, 300);
+        setTimeout(() => { 
+            document.body.style.overflow = ''; 
+        }, 300);
     }
 
-    window.onclick = (e) => { if (e.target.id === 'infoModal') closeModal(); }
+    // モーダルの背景クリックで閉じる
+    window.onclick = (e) => { 
+        if (e.target.id === 'infoModal') closeModal(); 
+    }
 </script>
 
 </body>
